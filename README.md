@@ -1,7 +1,8 @@
 # MNIST 手写数字识别 Web 应用
 
 基于 ONNX Runtime Web 的纯前端 AI 应用，实现手写数字识别功能。无需服务器，所有推理计算在浏览器端完成。
-
+![demo](screen.png)
+[minist-demo.vercel.app](minist-demo.vercel.app)
 ## 项目演示
 
 在画布上绘制 0-9 的数字，AI 模型会实时识别并显示：
