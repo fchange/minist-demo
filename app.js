@@ -193,9 +193,15 @@ class MNISTApp {
         const scaledImageData = tempCtx.getImageData(0, 0, 28, 28);
         const input = new Float32Array(1 * 1 * 28 * 28);
 
+        // MNIST标准归一化参数（与训练时保持一致）
+        const mean = 0.1307;
+        const std = 0.3081;
+
         for (let i = 0; i < 784; i++) {
             // 使用红色通道（灰度图像R=G=B）
-            input[i] = scaledImageData.data[i * 4] / 255.0;
+            // 应用与训练时相同的归一化: (pixel/255 - mean) / std
+            const normalized = scaledImageData.data[i * 4] / 255.0;
+            input[i] = (normalized - mean) / std;
         }
 
         return input;
