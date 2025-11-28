@@ -134,15 +134,21 @@ def train_model():
 
 
 def export_onnx(model, filename='mnist.onnx'):
-    """导出模型为ONNX格式"""
+    """导出模型为ONNX格式（使用传统方法确保单文件）"""
     model.eval()
     model.to('cpu')
 
     # 创建示例输入
     dummy_input = torch.randn(1, 1, 28, 28)
 
-    # 导出为ONNX
+    # 导出为ONNX - 使用 dynamo=False 确保生成单个文件
     print(f'\n正在导出模型到 {filename}...')
+
+    # 删除旧文件
+    if os.path.exists(filename):
+        os.remove(filename)
+    if os.path.exists(filename + '.data'):
+        os.remove(filename + '.data')
 
     torch.onnx.export(
         model,
@@ -156,7 +162,8 @@ def export_onnx(model, filename='mnist.onnx'):
         dynamic_axes={
             'input': {0: 'batch_size'},
             'output': {0: 'batch_size'}
-        }
+        },
+        dynamo=False  # 使用传统导出方法，生成单个文件
     )
 
     # 验证导出的模型
