@@ -1,0 +1,335 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-color: #4f46e5;
+    --primary-hover: #4338ca;
+    --secondary-color: #6b7280;
+    --success-color: #10b981;
+    --background: #f8fafc;
+    --card-bg: #ffffff;
+    --text-primary: #1f2937;
+    --text-secondary: #6b7280;
+    --border-color: #e5e7eb;
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background: var(--background);
+    color: var(--text-primary);
+    min-height: 100vh;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
+
+/* Header */
+header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.subtitle {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+}
+
+/* Main Layout */
+main {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    align-items: start;
+}
+
+@media (max-width: 768px) {
+    main {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Canvas Section */
+.canvas-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.canvas-container {
+    position: relative;
+    background: var(--card-bg);
+    border-radius: 16px;
+    padding: 1rem;
+    box-shadow: var(--shadow-lg);
+}
+
+#drawCanvas {
+    display: block;
+    background: #000000;
+    border-radius: 8px;
+    cursor: crosshair;
+    touch-action: none;
+}
+
+.canvas-overlay {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    right: 1rem;
+    bottom: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    border-radius: 8px;
+    transition: opacity 0.3s ease;
+}
+
+.canvas-overlay span {
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+.canvas-overlay.hidden {
+    opacity: 0;
+}
+
+.button-group {
+    display: flex;
+    gap: 1rem;
+}
+
+.btn {
+    padding: 0.75rem 2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-primary {
+    background: var(--primary-color);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: var(--primary-hover);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow);
+}
+
+.btn-primary:disabled {
+    background: var(--secondary-color);
+    cursor: not-allowed;
+    transform: none;
+}
+
+.btn-secondary {
+    background: var(--card-bg);
+    color: var(--text-primary);
+    border: 2px solid var(--border-color);
+}
+
+.btn-secondary:hover {
+    background: var(--background);
+    border-color: var(--secondary-color);
+}
+
+/* Result Section */
+.result-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.result-card,
+.probabilities-card,
+.preview-card {
+    background: var(--card-bg);
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+}
+
+.result-card h2 {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.prediction-display {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.prediction-number {
+    font-size: 5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    line-height: 1;
+}
+
+.confidence-display {
+    text-align: center;
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+}
+
+#confidenceResult {
+    font-weight: 600;
+    color: var(--success-color);
+}
+
+/* Probability Bars */
+.probabilities-card h3,
+.preview-card h3 {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+}
+
+.probability-bars {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.probability-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.probability-label {
+    width: 1.5rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    text-align: center;
+}
+
+.probability-bar-container {
+    flex: 1;
+    height: 20px;
+    background: var(--background);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.probability-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary-color), #818cf8);
+    border-radius: 4px;
+    transition: width 0.3s ease;
+    min-width: 0;
+}
+
+.probability-bar.highlight {
+    background: linear-gradient(90deg, var(--success-color), #34d399);
+}
+
+.probability-value {
+    width: 3.5rem;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    text-align: right;
+}
+
+/* Preview Canvas */
+.preview-card {
+    text-align: center;
+}
+
+#previewCanvas {
+    width: 112px;
+    height: 112px;
+    background: #000;
+    border-radius: 8px;
+    image-rendering: pixelated;
+    border: 2px solid var(--border-color);
+}
+
+/* Footer */
+footer {
+    margin-top: 3rem;
+    text-align: center;
+}
+
+.status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: var(--card-bg);
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+    margin-bottom: 1rem;
+}
+
+.status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--secondary-color);
+}
+
+.status-dot.loading {
+    background: #f59e0b;
+    animation: pulse 1.5s infinite;
+}
+
+.status-dot.ready {
+    background: var(--success-color);
+}
+
+.status-dot.error {
+    background: #ef4444;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+#statusText {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.tech-info {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-top: 0.5rem;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.result-card,
+.probabilities-card,
+.preview-card {
+    animation: fadeIn 0.5s ease;
+}

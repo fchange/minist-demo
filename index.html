@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MNIST 手写数字识别 - AI Demo</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>MNIST 手写数字识别</h1>
+            <p class="subtitle">基于 ONNX Runtime Web 的纯前端 AI 应用</p>
+        </header>
+
+        <main>
+            <div class="canvas-section">
+                <div class="canvas-container">
+                    <canvas id="drawCanvas" width="280" height="280"></canvas>
+                    <div class="canvas-overlay" id="canvasOverlay">
+                        <span>在此处绘制数字</span>
+                    </div>
+                </div>
+                <div class="button-group">
+                    <button id="clearBtn" class="btn btn-secondary">清除</button>
+                    <button id="predictBtn" class="btn btn-primary">识别</button>
+                </div>
+            </div>
+
+            <div class="result-section">
+                <div class="result-card">
+                    <h2>识别结果</h2>
+                    <div class="prediction-display">
+                        <span id="predictionResult" class="prediction-number">-</span>
+                    </div>
+                    <div class="confidence-display">
+                        <span>置信度: </span>
+                        <span id="confidenceResult">-</span>
+                    </div>
+                </div>
+
+                <div class="probabilities-card">
+                    <h3>各数字概率分布</h3>
+                    <div class="probability-bars" id="probabilityBars">
+                        <!-- 动态生成 -->
+                    </div>
+                </div>
+
+                <div class="preview-card">
+                    <h3>模型输入预览 (28x28)</h3>
+                    <canvas id="previewCanvas" width="28" height="28"></canvas>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <div class="status" id="modelStatus">
+                <span class="status-dot loading"></span>
+                <span id="statusText">正在加载模型...</span>
+            </div>
+            <p class="tech-info">
+                技术栈: ONNX Runtime Web | 纯浏览器端推理 | 无需服务器
+            </p>
+        </footer>
+    </div>
+
+    <!-- ONNX Runtime Web -->
+    <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web@1.16.3/dist/ort.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
